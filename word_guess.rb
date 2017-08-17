@@ -8,6 +8,8 @@ class Game
   end
 
   def level
+    "What level would you like to play at?"
+  end
 
 end #of class Game
 
@@ -16,8 +18,8 @@ class Card
 
   def initialize(word)
     @word = word
-    @guess = nil
-
+    @guess = nil #guess is the variable to store user input
+    @guess_type = "invalid"
   end
 
   def get_guess
@@ -25,8 +27,11 @@ class Card
     @guess = gets.chomp
   end
 
-  def verify_guess
+   #guess types: actual word, a letter, or invalid(guessing too many letters, guessing a number)
+  def get_guess_type
     if @guess.length.to_i == @word.length.to_i
+      return @guess
+
     end
   end
 
@@ -38,3 +43,17 @@ class AsciiArt
   end
 
 end #of class AsciiArt
+
+
+#START OF GAME____________
+
+introduction = <<YES Welcome to Word Guess! You will be shown a series of blanks.  Each blank represents a letter in the word that you will be guessing! You will be allowed to guess a single letter, or the whole word at once on each of your turns. Just type in your guess and go! Good luck!
+
+
+YES
+
+
+puts introduction
+
+game = Game.new
+game.level
