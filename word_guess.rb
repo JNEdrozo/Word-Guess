@@ -1,11 +1,20 @@
 #This is the word-guess project
 
-class Game
-  attr_reader :max_missed_guesses
+class WordGame
+
+  attr_reader :word, :word_showing, :missed_count, :letters_guessed, :words_guessed
 
   def initialize
-    @word_bank = %W[MERCURY VENUS MARS EARTH]
+    @word_bank = %W[APPLE, SANDWICH, PICNIC, BASKET, ANTS, BLANKET, IDYLLIC, MOUNTAINS, LAKE, SUMMMER, FRIENDS, FAMILY]
     get_level_and_max_misses
+    @word = @word_bank.sample
+    @guess = nil #guess is the variable to store user input
+    @guess_type = "invalid"
+    @word_showing = build_blank_word_array
+    @missed_count = 0
+    @word_array = @word.split("") #Check at end if this is used more than in the guess method... if not... delete!
+    @letters_guessed = []
+    @words_guessed = []
   end
 
   def get_level_and_max_misses
@@ -16,37 +25,17 @@ class Game
     level_choice = gets.chomp.downcase
 
     case level_choice
-      when "easy"
-        @max_missed_guesses = 5
-      when "medium"
-        @max_missed_guesses = 4
-      when "hard"
-        @max_missed_guesses = 3
-      else
-        puts "I'm sorry. I didn't understand. "
-        get_level_and_max_misses
+    when "easy"
+      @max_missed_guesses = 5
+      
+    when "medium"
+      @max_missed_guesses = 4
+    when "hard"
+      @max_missed_guesses = 3
+    else
+      puts "I'm sorry. I didn't understand. "
+      get_level_and_max_misses
     end
-
-
-  end
-
-  def generate_word
-    return @word_bank.sample
-  end
-end #of class Game
-
-
-class Card
-
-  attr_reader :word, :word_showing, :missed_count
-
-  def initialize(word)
-    @word = word.upcase
-    @guess = nil #guess is the variable to store user input
-    @guess_type = "invalid"
-    @word_showing = build_blank_word_array
-    @missed_count = 0
-    @word_array = @word.split("") #Check at end if this is used more than in the guess method... if not... delete!
   end
 
   def build_blank_word_array
@@ -71,11 +60,9 @@ class Card
         print "Sorry, that was incorrect!"
         @missed_count += 1
       end
-
-
     elsif @guess.length == 1 #IF USER GUESSES A LETTER
       if @word.include?(@guess) #if guessed letter exists in generated word array, iterate over word array to check if letter matches
-      puts "YES! It DOES include #{@guess}!"
+        puts "YES! It DOES include #{@guess}!"
         i = 0
         @word_array.each do |element|
           if @guess == element #letter
@@ -88,18 +75,19 @@ class Card
       end
     end
   end #of class Card
+
 end
 
-class AsciiArt
-
-    def initialize
-    end
-
-    def level_easy_initial
-      puts ""
-    end
-
-  end #of class AsciiArt
+# class AsciiArt
+#
+#     def initialize
+#     end
+#
+#     def level_easy_initial
+#       puts ""
+#     end
+#
+# end #of class AsciiArt
 
 
 #START OF GAME____________
@@ -112,17 +100,15 @@ YES
 
 puts introduction
 
-game1 = Game.new #get user input for level
-
-card1 = Card.new(game1.generate_word)
+game1 = WordGame.new #get user input for level
 
 while true
-  puts card1.word #test: view word
-  puts card1.word_showing.join
-  card1.get_guess
-  card1.check_guess
-  puts card1.missed_count
-  puts card1.word_showing.join
+  puts game1.word #test: view word
+  puts game1.word_showing.join
+  game1.get_guess
+  game1.check_guess
+  puts game1.missed_count
+  puts game1.word_showing.join
   puts "Would you like to make another guess?"
   response = gets.chomp.upcase
   if response == "NO"
