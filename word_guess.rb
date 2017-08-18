@@ -42,30 +42,35 @@ class WordGame
   end
 
   #guess types: actual word, a letter, or invalid(guessing too many letters, guessing a number)
-  def check_guess
-    if @guess.length.to_i == @word.length.to_i #IF USER GUESSES A WORD
-      @words_guessed << @guess 
+  def check_guess_easy
+    @guesses_remaining = 5
+
+    if @guess.length.to_i > 1
+      @words_guessed << @guess
       if @guess.upcase == @word
         print "YAY! CONGRATS! #{@word.upcase} IS CORRECT!"
       else
         print "Sorry, that was incorrect!"
-        @missed_count += 1
+        @guesses_remaining -= 1
       end
     elsif @guess.length == 1 #IF USER GUESSES A LETTER
+      @letters_guessed << @guess
+
       if @word.include?(@guess) #if guessed letter exists in generated word array, iterate over word array to check if letter matches
         puts "YES! It DOES include #{@guess}!"
+
         i = 0
         @word_array.each do |element|
           if @guess == element #letter
             @word_showing[i] = "#{element} " #resetting "__" to element which is the guessed letter
           end
           i += 1
+
         end#of word_array loop
       else #if guessed letter does not exist,
       end
     end
   end #of class Card
-
 end
 
 # class AsciiArt
@@ -104,7 +109,10 @@ when "easy"
   puts "guessed words: #{game1.words_guessed}"
   puts "remaining guesses: #{guesses_remaining}"
   game1.get_guess
-  game1.check_guess
+  game1.check_guess_easy
+  puts "guessed letters: #{game1.letters_guessed}"
+  puts "guessed words: #{game1.words_guessed}"
+  puts "remaining guesses: #{guesses_remaining}"
 
 when "medium"
   guesses_remaining = 4
