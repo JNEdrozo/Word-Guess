@@ -1,6 +1,6 @@
 #This is the word-guess project
 
-require 'terminal-table'
+# require 'terminal-table'
 require 'colorize'
 require './word_guess_asciiart.rb'
 
@@ -11,7 +11,7 @@ class WordGame
   attr_accessor :stop_guessing, :guesses_remaining
 
   def initialize
-    @word_bank = %W[APPLE SANDWICH PICNIC BASKET ANTS BLANKET IDYLLIC MOUNTAINS LAKE SUMMMER FRIENDS FAMILY]
+    @word_bank = %W[APPLE SANDWICH PICNIC BASKET ANTS BLANKET IDYLLIC MOUNTAINS LAKE SUMMER FRIENDS FAMILY FUN NATURE TREES SUN]
     @level_choice = get_level
     @word = @word_bank.sample #generates the word
     @guess = nil #guess is the variable to store user input
@@ -49,7 +49,7 @@ class WordGame
   def build_blank_word_array
     array = []
     @word.length.times do
-      array << "_"
+      array << "_" #currently does not have spaces
     end
     return array
   end
@@ -83,7 +83,7 @@ class WordGame
         i = 0
         @word_array.each do |element|
           if @guess == element #letter
-            @word_showing[i] = "#{element}" #resetting "__" to element which is the guessed letter
+            @word_showing[i] = "#{element}" #resetting "__" element to guessed letter
           end
           i += 1
         end#of word_array loop
@@ -100,13 +100,13 @@ class WordGame
     when 5
       return ONLY_BASKET
     when 4
-      return MISSED_GUESS1
+      return MISSED_GUESS1_ALERT1.colorize(:red).blink + MISSED_GUESS1
     when 3
-      return MISSED_GUESS2
+      return MISSED_GUESS1_ALERT2.colorize(:red).blink + MISSED_GUESS2
     when 2
-      return MISSED_GUESS3
+      return MISSED_GUESS1_ALERT3.colorize(:red).blink + MISSED_GUESS3
     when 1
-      return MISSED_GUESS4
+      return MISSED_GUESS_FINAL_ALERT.colorize(:red).blink + MISSED_GUESS_FINAL
     end
   end
 
